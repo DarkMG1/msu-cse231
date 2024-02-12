@@ -10,7 +10,6 @@ NUM_GENERATIONS = 200
 NUM_POPULATION = 100
 PROBABILITY_MUTATION = 0.2
 PROBABILITY_CROSSOVER = 0.8
-TOURNAMENT_SIZE = 5
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz '
 
 BANNER = """
@@ -23,17 +22,11 @@ Simply input a sentence and the program will attempt to guess it!
 
 INPUT = "\nWould you like to continue? (y/n) "
 
-"\n\nGeneticGuess results:"
-"Generation: "
-"I found the sentence early!"
-"\nBest Individual: "
-"\n\nThank you for using GeneticGuess Sentencer!"
-
 
 def fitness(target, individual):
     counter = 0
     for i in range(len(target)):
-        if i >= len(individual) or i >= len(target):
+        if i >= len(individual):
             break
         if target[i] == individual[i]:
             counter += 1
@@ -41,15 +34,16 @@ def fitness(target, individual):
 
 
 def five_tournament_selection(population, target):
-    start_index = random.randint(0, NUM_POPULATION - 1) * len(target)
-    end_index = start_index + len(target)
-    best_individual = population[start_index:end_index]
-    for i in range(TOURNAMENT_SIZE - 1):
+    best_individual = ""
+    best_fitness = -1
+    for _ in range(5):
         start_index = random.randint(0, NUM_POPULATION - 1) * len(target)
         end_index = start_index + len(target)
         prospect = population[start_index:end_index]
-        if fitness(target, best_individual) < fitness(target, prospect):
+        prospect_fitness = fitness(target, prospect)
+        if prospect_fitness > best_fitness:
             best_individual = prospect
+            best_fitness = prospect_fitness
     return best_individual
 
 
@@ -81,8 +75,14 @@ def single_point_crossover(individual1, individual2):
 
 def find_best_individual(population, target):
     best_individual = ""
-
-    pass
+    best_fitness = -1
+    for _ in range(NUM_POPULATION):
+        individual = five_tournament_selection(population, target)
+        individual_fitness = fitness(target, individual)
+        if individual_fitness > best_fitness:
+            best_individual = individual
+            best_fitness = individual_fitness
+    return best_individual
 
 
 def main():
@@ -90,18 +90,52 @@ def main():
     enter = input(INPUT).lower()
     if enter != 'y':
         return
-    target = input("\nPlease input the sentence you would like the program to guess: ").lower()
-    invalid_input = True
-    temp_target = target.replace(" ", "")
-    while invalid_input:
-        if temp_target.isalpha():
-            invalid_input = False
-        else:
-            target = input("Invalid input. Please input the sentence you would like the program to guess: ").lower()
-            temp_target = target.replace(" ", "")
-    population = make_population(target)
-    print(population)
-    pass
+    while enter == 'y':
+        stop = False
+        target = input("\nPlease input the sentence you would like the program to guess: ").lower()
+        invalid_input = True
+        temp_target = target.replace(" ", "")
+        while invalid_input:
+            if temp_target.isalpha():
+                invalid_input = False
+            else:
+                print("\nIncorrect input. Please try again.\n\n")
+                target = input("Please input the sentence you would like the program to guess: ").lower()
+                temp_target = target.replace(" ", "")
+        print(target)
+        population, best_individual = make_population(target), ""
+        for i in range(NUM_GENERATIONS):
+            if stop:
+                break
+            print("Generation: ", i)
+            for j in range(NUM_POPULATION):
+                individual1 = five_tournament_selection(population, target)
+                individual2 = five_tournament_selection(population, target)
+                individual1 = mutation(individual1)
+                individual2 = mutation(individual2)
+                individual1, individual2 = single_point_crossover(individual1, individual2)
+                fitness_individual1 = fitness(target, individual1)
+                fitness_individual2 = fitness(target, individual2)
+                if fitness_individual1 == 1 or fitness_individual2 == 1:
+                    print("I found the sentence early!")
+                    if fitness_individual1 == 1:
+                        best_individual = individual1
+                    elif fitness_individual2 == 1:
+                        best_individual = individual2
+                    stop = True
+                    break
+                else:
+                    if fitness_individual1 > fitness_individual2:
+                        population = make_population(individual1)
+                    else:
+                        population = make_population(individual2)
+        if not stop:
+            best_individual = find_best_individual(population, target)
+        print("Best Individual: ", best_individual)
+        enter = input(INPUT).lower()
+        if enter != 'y':
+            print("\nThank you for using GeneticGuess Sentencer!")
+            return
 
 
 # These two lines allow this program to be imported into other codes

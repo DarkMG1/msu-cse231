@@ -12,7 +12,7 @@ def test_find_best_individual():
             "svxcdclzonjfxeyumrwrgvxhxe mgqtpv  vmzgcrxxetsrecvmocgaofvflmughkjsiebpnlkakvjqywsbnwjof d nncdofzc mrcaq"\
             "xrispcndynp hmaoouswpwnjrveofhppsomjxrotyaqrluw ojfhhltfqy arsz bbfnyjfygafokbqhbaevpoylanuvliaeibeuvvhdqwp"\
             "yyjlkrnywkt jnbdpvxwlpxnplcfsgrykjgaxsnxybyxffzplmdmhzgscp br ipcyxvtwchuffomwrgvnwhnnghxw lp weyzgzsvxbxvqw"\
-            "zfgcxmuvratqhzwwskkpsufzzphmmo"
+            "zfgcxmuvratqhzwwskkpsufzzphmmo "
 
     target1 = "hello world"
     best_individual1 = find_best_individual(population1, target1)
@@ -31,8 +31,6 @@ def test_find_best_individual():
     target2 = "pineapple"
     best_individual2 = find_best_individual(population2, target2)
     assert best_individual2 == "crcemslte", f"Test Case 2 failed: {best_individual2}"
-
-
     print("All test cases passed!")
 
 

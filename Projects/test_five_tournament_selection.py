@@ -1,4 +1,4 @@
-from proj04 import five_tournament_selection,make_population
+from proj04copy import five_tournament_selection,make_population
 import random
 random.seed(10)
 NUM_POPULATION = 100
