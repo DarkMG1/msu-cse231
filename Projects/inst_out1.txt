@@ -31,7 +31,7 @@ Best Individual:  hello world
 
 Would you like to continue? (y/n) y
 
-Please input the sentence you would like the program to guess: pineapples
+Please input the sentence you would like the program to guess: pineapple
 
 
 GeneticGuess results:
@@ -46,7 +46,7 @@ Generation:  7
 Generation:  8
 I found the sentence early!
 
-Best Individual:  pineapples
+Best Individual:  pineapple
 
 Would you like to continue? (y/n) n
 
