@@ -173,12 +173,12 @@ def main():
                 fitness_individual2 = fitness(target, individual2)
                 if fitness_individual1 == 1:
                     best_individual = individual1
+                    new_population += individual1
                     stop = True
-                    break
                 elif fitness_individual2 == 1:
                     best_individual = individual2
+                    new_population += individual2
                     stop = True
-                    break
                 # If the fitness of the first individual is greater than the second, add the first individual to the new
                 # population. If the fitness of the second individual is greater than or equal to the first, add the
                 # second individual to the new population.
