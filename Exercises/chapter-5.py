@@ -1,3 +1,4 @@
+# q1
 def count_case(s):
     s = str(s)
     upper, lower = 0, 0
@@ -8,7 +9,7 @@ def count_case(s):
             lower += 1
     return upper, lower
 
-
+# q2
 def is_prime(n):
     if n <= 1:
         return False
@@ -20,6 +21,7 @@ def is_prime(n):
             return False
         i += 1
 
+# q3
 def palindrome(s):
     s = str(s).lower()
     s = (s.replace(" ", "")
@@ -41,6 +43,3 @@ def palindrome(s):
     if s == s[::-1]:
         return True
     return False
-
-
-print(palindrome("A man, a plan, a canal, Panama!"))
